@@ -1,0 +1,10 @@
+AllCops:
+  Exclude:
+    - 'features/**/*'
+
+Metrics/LineLength:
+  Max: 80
+Metrics/MethodLength:
+  Max: 15
+Metrics/ParameterLists:
+  Max: 6
