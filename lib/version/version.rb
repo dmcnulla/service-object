@@ -1,4 +1,4 @@
 # Identify the version
-module ServiceObject
+class ServiceObject
   VERSION = '0.1.0'.freeze
 end
