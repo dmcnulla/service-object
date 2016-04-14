@@ -1,0 +1,6 @@
+{
+  "name": "Service-object",
+  "tagline": "",
+  "body": "### Welcome to GitHub Pages.\r\nA simple gem that assists in creating flexible service objects for testing rest based applications. The goal is to facilitate creating abstraction layers in your tests to decouple the tests from the item they are testing and to provide a simple interface to the elements on a page. It works with rest_baby.\r\n\r\n### Authors and Contributors\r\nDavid McNulla\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
