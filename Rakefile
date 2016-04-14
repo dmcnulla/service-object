@@ -22,4 +22,4 @@ end
 desc 'Check test coverage'
 Coveralls::RakeTask.new
 
-task default: [:features, 'coveralls:push', :rubocop]
+task default: [:features, 'coveralls:push']
