@@ -4,8 +4,8 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'version/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'rest_baby'
-  spec.version       = RestBaby::VERSION
+  spec.name          = 'service-object'
+  spec.version       = ServiceObject::VERSION
   spec.authors       = ['Dave McNulla']
   spec.email         = ['mcnulla@gmail.com']
   spec.description   = 'Rest client'
@@ -14,8 +14,7 @@ Gem::Specification.new do |spec|
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
-  spec.executables   = spec.files.grep(/^bin/) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(/^(test|spec|features)/)
+  spec.test_files    = spec.files.grep(/^features/)
   spec.require_paths = ['lib']
 
   spec.add_dependency 'rest_baby', '~> 1.5.1'

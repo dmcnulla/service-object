@@ -4,7 +4,7 @@ include WebMock::API
 
 # Mocking Service for testing rest calls
 class MockRestService
-  STANDARD_HEADERS = { 'Accept' => '*/*', 'User-Agent' => 'Ruby' }.freeze
+  # STANDARD_HEADERS = { 'Accept' => '*/*', 'User-Agent' => 'Ruby' }.freeze
   STANDARD = 'http'.freeze
   SECURE = 'https'.freeze
 
@@ -15,31 +15,30 @@ class MockRestService
     @messages = {}
   end
 
-  def store_msg(type, path, message, headers = {},
-                user = nil, password = nil, body = nil)
-    url = "#{@protocol}://#{auth_string(user, password)}#{@host}:#{@port}#{path}"
+  def store_msg(type, url, request_body, headers, response_body)
     case type.downcase
     when 'get', 'delete'
       WebMock.stub_request(type.downcase.to_sym, url)
-             .with(headers: merge_headers(headers))
-             .to_return({ status: 200, body: message }, headers: {})
+             .with(headers: headers)
+             .to_return({ status: 200, body: response_body }, headers: {})
     when 'put', 'post'
       WebMock.stub_request(type.downcase.to_sym, url)
-             .with(body: body,
-                   headers: merge_headers(headers))
-             .to_return({ status: 200, body: message }, headers: {})
+             .with(body: request_body,
+                   headers: headers)
+             .to_return({ status: 200, body: response_body }, headers: {})
     else
       raise "Unsupported type: #{type}"
     end
   end
 
-  def merge_headers(headers)
-    STANDARD_HEADERS.merge(headers)
-  end
+  # def merge_headers(headers)
+  #   headers
+  #   # STANDARD_HEADERS.merge(headers)
+  # end
 
-  def auth_string(user, password)
-    "#{user}:#{password}@" unless user.nil? || password.nil?
-  end
+  # def auth_string(user, password)
+  #   "#{user}:#{password}@" unless user.nil? || password.nil?
+  # end
 
   def store_get_query(path, headers = {}, user = nil, password = nil)
     new_headers = STANDARD_HEADERS.merge(headers)
