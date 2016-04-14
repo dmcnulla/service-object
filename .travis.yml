@@ -1,0 +1,22 @@
+language: ruby
+cache: bundler
+matrix:
+  include:
+    # - rvm: 2.0.0
+    # - rvm: 2.1.0
+    - rvm: 2.2.0
+  #   - rvm: rbx-2
+  #   - rvm: ruby-head
+  #   - rvm: jruby-head
+  #     jdk: oraclejdk8
+  #   - rvm: jruby-19mode
+  #     jdk: openjdk6
+  #   - rvm: jruby-19mode
+  #     jdk: openjdk7
+  #   - rvm: jruby-19mode
+  #     jdk: oraclejdk7
+  #   - rvm: jruby-19mode
+  #     jdk: oraclejdk8
+  # allow_failures:
+  #   - rvm: ruby-head
+  #   - rvm: jruby-head

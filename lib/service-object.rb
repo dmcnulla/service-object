@@ -1,7 +1,7 @@
 # service_object.rb
 # @author Dave McNulla
-# Originated: 2011
-# This library was written to simplify communications with rest services.
+# Originated: 2016
+# This library was written to create page-object-like behavior in rest services.
 
 require 'rest_baby'
 
