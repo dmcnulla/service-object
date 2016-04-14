@@ -1,16 +1,27 @@
 HEADERS = { 'Content-type' => 'application/json' }.freeze
 URL = 'http://localhost:9595/test'.freeze
-DATA = 'Hello world'.freeze
+DATA = "{ 'test': 'something' }".freeze
 
-Given(/^I have a GET web service$/) do
-  @mockservice.store_msg('GET', URL, nil, HEADERS, DATA)
+Given(/^I have a "([^"]*)" web service$/) do |type|
+  case type
+  when 'GET'
+    @mockservice.store_msg('GET', URL, nil, HEADERS, DATA)
+  else
+    @mockservice.store_msg(type, URL, nil, HEADERS, nil)
+  end
 end
 
-When(/^I call that web service$/) do
-  @client = ServiceObject.new(service_type: 'GET', url: URL, headers: HEADERS)
+When(/^I call that "([^"]*)" web service$/) do |type|
+  @client = ServiceObject.new(service_type: type, url: URL, headers: HEADERS)
+  @response = @client.send
 end
 
 Then(/^I retrieve data$/) do
-  @data = @client.send.body
+  @data = @response.body
   expect(@data).to eq(DATA)
+end
+
+Then(/^I get a 200 response$/) do
+  @code = @response.code.to_i
+  expect(@code).to eq(200)
 end

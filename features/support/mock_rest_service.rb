@@ -4,7 +4,6 @@ include WebMock::API
 
 # Mocking Service for testing rest calls
 class MockRestService
-  # STANDARD_HEADERS = { 'Accept' => '*/*', 'User-Agent' => 'Ruby' }.freeze
   STANDARD = 'http'.freeze
   SECURE = 'https'.freeze
 
@@ -30,15 +29,6 @@ class MockRestService
       raise "Unsupported type: #{type}"
     end
   end
-
-  # def merge_headers(headers)
-  #   headers
-  #   # STANDARD_HEADERS.merge(headers)
-  # end
-
-  # def auth_string(user, password)
-  #   "#{user}:#{password}@" unless user.nil? || password.nil?
-  # end
 
   def store_get_query(path, headers = {}, user = nil, password = nil)
     new_headers = STANDARD_HEADERS.merge(headers)

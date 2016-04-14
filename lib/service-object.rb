@@ -34,8 +34,6 @@ class ServiceObject
   end
 
   def send
-    puts @uri.path.class
-    puts @headers.class
     case @service_type
     when :get
       @client.get
@@ -45,8 +43,6 @@ class ServiceObject
       @client.put
     when :post
       @client.post
-    else
-      raise "Error: #{@service_type} does not exist"
     end
   end
 end
