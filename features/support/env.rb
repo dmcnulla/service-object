@@ -16,7 +16,7 @@ SimpleCov.start do
   add_filter 'features'
 end
 
-require 'service-object'
+require 'service_object'
 
 include RestBaby
 
