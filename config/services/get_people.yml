@@ -1,0 +1,17 @@
+{ "method": "GET",
+  "path": "/something/:key",
+  "response": {
+    "code": /\d{3}/,
+    "body": {
+      "person": {
+        "name": /^[a-z]+( [a-z][a-z-]+||-[a-z]+)?$/i,
+        "username": ~user_name,
+        "address": ~street_address,
+        "email": ~email_address,
+        "pay_type": "STRING"
+        "card_type": ~credit_card_type
+        "card_number": /\d{4}-\d{4}-\d{4}-\d{4}/
+      }
+    }
+  }
+}

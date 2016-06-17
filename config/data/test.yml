@@ -1,0 +1,8 @@
+person:
+  name: ~user_name
+  address: ~street_address
+  email: ~email_address
+  pay_type: ~randomize ['Credit card', 'Purchase order', 'Check']
+  card_type: ~credit_card_type
+  card_number: ~credit_card_number
+  

@@ -1,18 +1,18 @@
-HEADERS = { 'Content-type' => 'application/json' }.freeze
+HEADERS = {} # { 'Content-type' => 'application/json' }.freeze
 URL = 'http://localhost:9595/test'.freeze
 DATA = "{ 'test': 'something' }".freeze
 
 Given(/^I have a "([^"]*)" web service$/) do |type|
   case type
   when 'GET'
-    @mockservice.store_msg('GET', URL, nil, HEADERS, DATA)
+    @mockservice.store_msg('GET', URL, nil, DATA)
   else
-    @mockservice.store_msg(type, URL, nil, HEADERS, nil)
+    @mockservice.store_msg(type, URL, nil, nil)
   end
 end
 
 When(/^I call that "([^"]*)" web service$/) do |type|
-  @client = ServiceObject.new(service_type: type, url: URL, headers: HEADERS)
+  @client = ServiceClient.new({ service_object: { service_type: type }, url: URL, headers: HEADERS })
   @response = @client.send
 end
 

@@ -1,0 +1,506 @@
+{
+  "application": {
+    "resources": {
+      "doc": "\n   Post or retrieve your bookmarks from the social networking website.\n   Limit requests to one per second.\n  ",
+      "resource": {
+        "param": {
+          "doc": "All del.icio.us API calls must be authenticated\n    using Basic HTTP auth.",
+          "name": "Authorization",
+          "style": "header",
+          "required": "true"
+        },
+        "resource": [
+          {
+            "method": {
+              "href": "#getLastUpdateTime"
+            },
+            "path": "update"
+          },
+          {
+            "resource": [
+              {
+                "method": {
+                  "href": "#getTags"
+                },
+                "path": "get"
+              },
+              {
+                "method": {
+                  "href": "#renameTag"
+                },
+                "path": "rename"
+              }
+            ],
+            "path": "tags"
+          },
+          {
+            "resource": [
+              {
+                "method": {
+                  "href": "#getPosts"
+                },
+                "path": "get"
+              },
+              {
+                "method": {
+                  "href": "#getRecentPosts"
+                },
+                "path": "recent"
+              },
+              {
+                "method": {
+                  "href": "#getAllPosts"
+                },
+                "path": "all"
+              },
+              {
+                "method": {
+                  "href": "#getDates"
+                },
+                "path": "dates"
+              },
+              {
+                "method": {
+                  "href": "#addPost"
+                },
+                "path": "add"
+              },
+              {
+                "method": {
+                  "href": "#deletePost"
+                },
+                "path": "delete"
+              }
+            ],
+            "path": "posts"
+          },
+          {
+            "resource": [
+              {
+                "method": {
+                  "href": "#getBundles"
+                },
+                "path": "all"
+              },
+              {
+                "method": {
+                  "href": "#makeBundle"
+                },
+                "path": "set"
+              },
+              {
+                "method": {
+                  "href": "#deleteBundle"
+                },
+                "path": "delete"
+              }
+            ],
+            "path": "bundles"
+          }
+        ],
+        "path": "v1"
+      },
+      "base": "https://api.del.icio.us/"
+    },
+    "method": [
+      {
+        "response": {
+          "representation": {
+            "doc": "\n     The \"time\" attribute contains the last update time for the\n     authenticated user, in ISO8661 format.\n    ",
+            "mediaType": "application/xml",
+            "element": "update"
+          },
+          "fault": {
+            "href": "#AuthorizationRequired"
+          }
+        },
+        "id": "getLastUpdateTime",
+        "name": "GET"
+      },
+      {
+        "response": {
+          "representation": {
+            "doc": "\n     Contains \"tag\" tags, each with \"count\" and \"tag\" attributes.\n    ",
+            "mediaType": "application/xml",
+            "element": "tags"
+          },
+          "fault": {
+            "href": "#AuthorizationRequired"
+          }
+        },
+        "id": "getTags",
+        "name": "GET"
+      },
+      {
+        "request": {
+          "param": [
+            {
+              "doc": {
+                "xml:lang": "en",
+                "title": "Tag to rename."
+              },
+              "name": "old",
+              "required": "true",
+              "style": "form"
+            },
+            {
+              "doc": {
+                "xml:lang": "en",
+                "title": "New name."
+              },
+              "name": "new",
+              "required": "true",
+              "style": "form"
+            }
+          ]
+        },
+        "response": {
+          "representation": {
+            "href": "#resultCodeDone"
+          },
+          "fault": {
+            "href": "#AuthorizationRequired"
+          }
+        },
+        "id": "renameTag",
+        "name": "POST"
+      },
+      {
+        "doc": "\n   If no date or url is given, most recent date will be used.\n  ",
+        "request": {
+          "param": [
+            {
+              "doc": {
+                "xml:lang": "en",
+                "title": "Filter by this tag."
+              },
+              "name": "tag",
+              "style": "form"
+            },
+            {
+              "doc": {
+                "xml:lang": "en",
+                "title": "Filter by this date (CCYY-MM-DDThh:mm:ssZ)."
+              },
+              "name": "dt",
+              "style": "form"
+            },
+            {
+              "doc": {
+                "xml:lang": "en",
+                "title": "Filter by this URL."
+              },
+              "name": "url",
+              "style": "form"
+            }
+          ]
+        },
+        "response": {
+          "representation": {
+            "doc": "\n     <posts dt=\"2005-11-28\" tag=\"webdev\" user=\"user\">\n      <post href=\"http://www.howtocreate.co.uk/tutorials/texterise.php?dom=1\" \n       description=\"JavaScript DOM reference\" \n       extended=\"dom reference\" \n       hash=\"c0238dc0c44f07daedd9a1fd9bbdeebd\" \n       others=\"55\" tag=\"dom javascript webdev\" time=\"2005-11-28T05:26:09Z\" />\n     </posts>\n    ",
+            "mediaType": "application/xml",
+            "element": "posts"
+          }
+        },
+        "id": "getPosts",
+        "name": "GET"
+      },
+      {
+        "doc": "\n   Filtered by argument. Maximum 100.\n  ",
+        "request": {
+          "param": [
+            {
+              "doc": {
+                "xml:lang": "en",
+                "title": "Filter by this tag."
+              },
+              "name": "tag",
+              "style": "form"
+            },
+            {
+              "doc": "Maximum: 100",
+              "name": "count",
+              "style": "form",
+              "default": "15"
+            }
+          ]
+        },
+        "response": {
+          "representation": {
+            "href": "#postList"
+          },
+          "fault": {
+            "href": "#AuthorizationRequired"
+          }
+        },
+        "id": "getRecentPosts",
+        "name": "GET"
+      },
+      {
+        "doc": "\n   Please use sparingly. Call the update function to see if you need\n   to fetch this at all.\n  ",
+        "request": {
+          "param": {
+            "doc": {
+              "xml:lang": "en",
+              "title": "Filter by this tag."
+            },
+            "name": "tag",
+            "style": "form"
+          }
+        },
+        "response": {
+          "representation": {
+            "href": "#postList"
+          },
+          "fault": {
+            "href": "#AuthorizationRequired"
+          }
+        },
+        "id": "getAllPosts",
+        "name": "GET"
+      },
+      {
+        "doc": {
+          "xml:lang": "en",
+          "title": "Returns a list of dates with the number of posts at each date."
+        },
+        "request": {
+          "param": {
+            "doc": {
+              "xml:lang": "en",
+              "title": "Filter by this tag."
+            },
+            "name": "tag",
+            "style": "form"
+          }
+        },
+        "response": {
+          "representation": {
+            "doc": "\n     <dates tag=\"\" user=\"user\">\n       <date count=\"5\" date=\"2005-11-29\" />\n       <date count=\"15\" date=\"2005-11-28\" />\n       <date count=\"2\" date=\"2005-11-26\" />\n       <date count=\"2\" date=\"2005-11-25\" />\n       <date count=\"7\" date=\"2005-11-23\" />\n       <date count=\"20\" date=\"2005-11-22\" />\n       <date count=\"16\" date=\"2005-11-21\" />\n       <date count=\"4\" date=\"2005-11-19\" />\n     </dates>\n    ",
+            "mediaType": "application/xml"
+          }
+        },
+        "id": "getDates",
+        "name": "GET"
+      },
+      {
+        "doc": {
+          "xml:lang": "en",
+          "title": "Add a post to del.icio.us"
+        },
+        "request": {
+          "param": [
+            {
+              "doc": {
+                "xml:lang": "en",
+                "title": "The URL of the item."
+              },
+              "name": "url",
+              "required": "true",
+              "style": "form"
+            },
+            {
+              "doc": {
+                "xml:lang": "en",
+                "title": "The description of the item."
+              },
+              "name": "description",
+              "required": "true",
+              "style": "form"
+            },
+            {
+              "doc": {
+                "xml:lang": "en",
+                "title": "Notes for the item."
+              },
+              "name": "extended",
+              "style": "form"
+            },
+            {
+              "doc": "Space delimited",
+              "name": "tags",
+              "style": "form"
+            },
+            {
+              "doc": "\n     Format: \"CCYY-MM-DDThh:mm:ssZ\". Requires a LITERAL \"T\" and \"Z\"\n     like in \n     <html:ahref=\"http://www.cl.cam.ac.uk/~mgk25/iso-time.html\">ISO8601</html:a>.\n     For example: \"1984-09-01T14:21:31Z\"\n    ",
+              "name": "dt",
+              "style": "form"
+            },
+            {
+              "doc": {
+                "xml:lang": "en",
+                "title": "Unless set to \"no\", a post will overwrite an\n            earlier post with the same URL."
+              },
+              "option": [
+                {
+                  "value": ""
+                },
+                {
+                  "value": "no"
+                }
+              ],
+              "name": "replace",
+              "default": "",
+              "style": "form"
+            },
+            {
+              "doc": {
+                "xml:lang": "en",
+                "title": "Set to \"no\" to make the item private."
+              },
+              "option": [
+                {
+                  "value": ""
+                },
+                {
+                  "value": "no"
+                }
+              ],
+              "name": "shared",
+              "style": "form"
+            }
+          ]
+        },
+        "response": {
+          "representation": {
+            "href": "#resultCode"
+          },
+          "fault": {
+            "href": "#AuthorizationRequired"
+          }
+        },
+        "id": "addPost",
+        "name": "GET"
+      },
+      {
+        "doc": {
+          "xml:lang": "en",
+          "title": "Delete a post from del.icio.us"
+        },
+        "request": {
+          "param": {
+            "doc": {
+              "xml:lang": "en",
+              "title": "The URL of the item."
+            },
+            "name": "url",
+            "required": "true",
+            "style": "form"
+          }
+        },
+        "response": {
+          "representation": {
+            "href": "#resultCodeDone"
+          },
+          "fault": {
+            "href": "#AuthorizationRequired"
+          }
+        },
+        "id": "deletePost",
+        "name": "GET"
+      },
+      {
+        "doc": {
+          "xml:lang": "en",
+          "title": "Retrieve all of a user's bundles."
+        },
+        "response": {
+          "representation": {
+            "doc": "\n     <bundles>\n       <bundle name=\"music\" tags=\"ipod mp3 music\" />\n     </bundles>\n    ",
+            "mediaType": "application/xml",
+            "element": "bundles"
+          },
+          "fault": {
+            "href": "#AuthorizationRequired"
+          }
+        },
+        "id": "getBundles",
+        "name": "GET"
+      },
+      {
+        "doc": "\n   Wipes away previous settings for bundle.\n  ",
+        "request": {
+          "param": [
+            {
+              "doc": {
+                "xml:lang": "en",
+                "title": "The bundle name."
+              },
+              "name": "bundle",
+              "style": "form"
+            },
+            {
+              "doc": "Space-separated.",
+              "name": "tags",
+              "required": "true",
+              "style": "form"
+            }
+          ]
+        },
+        "response": {
+          "representation": {
+            "doc": "\n     On success, contents are \"done\" On failure,\n     contents are \"you must supply a bundle name and at least one\n     tag\"\n    ",
+            "mediaType": "application/xml",
+            "element": "result"
+          },
+          "fault": {
+            "href": "#AuthorizationRequired"
+          }
+        },
+        "id": "makeBundle",
+        "name": "GET"
+      },
+      {
+        "doc": {
+          "xml:lang": "en",
+          "title": "Deletes a bundle."
+        },
+        "request": {
+          "param": {
+            "doc": {
+              "xml:lang": "en",
+              "title": "The bundle name."
+            },
+            "name": "bundle",
+            "style": "form"
+          }
+        },
+        "response": {
+          "representation": {
+            "href": "#resultCodeDone"
+          },
+          "fault": {
+            "href": "#AuthorizationRequired"
+          }
+        },
+        "id": "deleteBundle",
+        "name": "GET"
+      }
+    ],
+    "representation": [
+      {
+        "doc": "\n    <posts tag=\"\" user=\"user\">\n      <post href=\"http://www.weather.com/\" description=\"weather.com\" \n      hash=\"6cfedbe75f413c56b6ce79e6fa102aba\" tag=\"weather reference\" \n      time=\"2005-11-29T20:30:47Z\" />\n      <post href=\"http://www.nytimes.com/\" \n      description=\"The New York Times - Breaking News, World News & Multimedia\" \n      extended=\"requires login\" hash=\"ca1e6357399774951eed4628d69eb84b\" \n      tag=\"news media\" time=\"2005-11-29T20:30:05Z\" />\n    </posts>\n  ",
+        "id": "postList",
+        "mediaType": "text/xml",
+        "element": "posts"
+      },
+      {
+        "doc": "\n   This representation has the same structure whether or not the\n   operation succeeded. If it succeeded, the value of the 'code'\n   attribute is \"done\". Otherwise, it's \"something went wrong\".\n  ",
+        "id": "resultCode",
+        "mediaType": "application/xml",
+        "element": "result"
+      },
+      {
+        "doc": "\n   Allegedly, this representation has a \"code\" attribute whose value\n   is always \"done\". I think it might actually be the same as the\n   resultCode representation.\n  ",
+        "id": "resultCodeDone",
+        "mediaType": "application/xml",
+        "element": "result"
+      }
+    ],
+    "fault": {
+      "id": "AuthorizationRequired",
+      "status": "401"
+    },
+    "xmlns:html": "http://www.w3.org/1999/xhtml"
+  }
+}

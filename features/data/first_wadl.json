@@ -1,0 +1,92 @@
+{
+  "application": {
+    "resources": {
+      "resource": {
+        "method": {
+          "request": {
+            "param": [
+              {
+                "name": "appid",
+                "required": "true",
+                "style": "query",
+                "type": "xsd:string"
+              },
+              {
+                "name": "query",
+                "required": "true",
+                "style": "query",
+                "type": "xsd:string"
+              },
+              {
+                "option": [
+                  {
+                    "value": "all"
+                  },
+                  {
+                    "value": "any"
+                  },
+                  {
+                    "value": "phrase"
+                  }
+                ],
+                "default": "all",
+                "name": "type",
+                "style": "query"
+              },
+              {
+                "default": "10",
+                "name": "results",
+                "style": "query",
+                "type": "xsd:int"
+              },
+              {
+                "default": "1",
+                "name": "start",
+                "style": "query",
+                "type": "xsd:int"
+              },
+              {
+                "option": [
+                  {
+                    "value": "rank"
+                  },
+                  {
+                    "value": "date"
+                  }
+                ],
+                "default": "rank",
+                "name": "sort",
+                "style": "query"
+              },
+              {
+                "name": "language",
+                "style": "query",
+                "type": "xsd:string"
+              }
+            ]
+          },
+          "response": [
+            {
+              "representation": {
+                "element": "yn:ResultSet",
+                "mediaType": "application/xml"
+              },
+              "status": "200"
+            },
+            {
+              "representation": {
+                "element": "ya:Error",
+                "mediaType": "application/xml"
+              },
+              "status": "400"
+            }
+          ],
+          "id": "search",
+          "name": "GET"
+        },
+        "path": "newsSearch"
+      },
+      "base": "http://api.search.yahoo.com/NewsSearchService/V1/"
+    }
+  }
+}
