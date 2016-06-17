@@ -1,5 +1,6 @@
 .ideas
 
+# Separate service client from service object - in progress
 # Validate responses against schema
 # Use default data for service-object
 # Enable DataMagic dynamic data for service-object
